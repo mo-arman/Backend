@@ -1,6 +1,10 @@
 let express = require("express");
+require("dotenv").config();
+const { CheckToken } = require("./checkTokenMiddleware");
 
 let app = express();
+
+console.log(process.env.MyToken);
 app.use(express.json()); // line write mandatory for access permission and any post get request etc.
 
 let myToken = "1234567890";
@@ -34,7 +38,7 @@ app.get("/", (req, res) => {
   res.send({ status: 1, msg: "Home Page" });
 });
 
-app.get("/news", (req, res) => {
+app.get("/news",checkToken, (req, res) => {
   res.send({ status: 2, msg: "News Page API" });
 });
 
